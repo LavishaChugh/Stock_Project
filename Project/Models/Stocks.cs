@@ -9,10 +9,10 @@ namespace Project.Models
 
         public int Quantity { get; set; }
 
-        public Guid ItemsId { get; set; }
+       // public Guid ItemsId { get; set; }
 
-       [ForeignKey("ItemsId")]
-        public Items? ItemsNavigation { get; set; }
+       //[ForeignKey("ItemsId")]
+       // public Items? ItemsNavigation { get; set; }
 
         public Guid PurchaseId { get; set; }
 

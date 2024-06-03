@@ -66,7 +66,7 @@ namespace Project.Services.Sale
             response.TotalCost = updateitem.TotalCost;
             response.Date = updateitem.Date;
             response.Quantity = updateitem.Quantity;
-            response.ItemsId = updateitem.ItemsId;
+            response.StockId = updateitem.StockId;
 
             await _context.SaveChangesAsync();
 

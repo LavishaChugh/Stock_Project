@@ -72,18 +72,18 @@ namespace Project.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("ItemsId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
+
+                    b.Property<Guid>("StockId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("TotalCost")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ItemsId");
+                    b.HasIndex("StockId");
 
                     b.ToTable("Sales");
                 });
@@ -94,9 +94,6 @@ namespace Project.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ItemsId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("PurchaseId")
                         .HasColumnType("uniqueidentifier");
 
@@ -104,8 +101,6 @@ namespace Project.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ItemsId");
 
                     b.HasIndex("PurchaseId");
 
@@ -125,30 +120,22 @@ namespace Project.Migrations
 
             modelBuilder.Entity("Project.Models.Sales", b =>
                 {
-                    b.HasOne("Project.Models.Items", "ItemsNavigation")
+                    b.HasOne("Project.Models.Stocks", "StocksNavigation")
                         .WithMany()
-                        .HasForeignKey("ItemsId")
+                        .HasForeignKey("StockId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ItemsNavigation");
+                    b.Navigation("StocksNavigation");
                 });
 
             modelBuilder.Entity("Project.Models.Stocks", b =>
                 {
-                    b.HasOne("Project.Models.Items", "ItemsNavigation")
-                        .WithMany()
-                        .HasForeignKey("ItemsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Project.Models.Purchase", "PurchaseNavigation")
                         .WithMany()
                         .HasForeignKey("PurchaseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("ItemsNavigation");
 
                     b.Navigation("PurchaseNavigation");
                 });

@@ -13,10 +13,10 @@ namespace Project.Models
 
         public int TotalCost { get; set; }
 
-        public Guid ItemsId { get; set; }
+        public Guid StockId { get; set; }
 
-        [ForeignKey("ItemsId")]
-        public Items? ItemsNavigation { get; set; }
+        [ForeignKey("StockId")]
+        public Stocks? StocksNavigation { get; set; }
 
     }
 }

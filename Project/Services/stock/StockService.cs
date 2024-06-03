@@ -65,7 +65,6 @@ namespace Project.Services.stock
             }
 
             response.Quantity = updateStocks.Quantity;
-            response.ItemsId = updateStocks.ItemsId;
             response.PurchaseId = updateStocks.PurchaseId;
 
             await _context.SaveChangesAsync();

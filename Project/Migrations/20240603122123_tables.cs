@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Project.Migrations
 {
     /// <inheritdoc />
-    public partial class test : Migration
+    public partial class tables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -45,6 +45,25 @@ namespace Project.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "stocks",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    PurchaseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_stocks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_stocks_purchases_PurchaseId",
+                        column: x => x.PurchaseId,
+                        principalTable: "purchases",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Sales",
                 columns: table => new
                 {
@@ -52,41 +71,15 @@ namespace Project.Migrations
                     Date = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     TotalCost = table.Column<int>(type: "int", nullable: false),
-                    ItemsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    StockId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Sales", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Sales_Items_ItemsId",
-                        column: x => x.ItemsId,
-                        principalTable: "Items",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "stocks",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    ItemsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PurchaseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_stocks", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_stocks_Items_ItemsId",
-                        column: x => x.ItemsId,
-                        principalTable: "Items",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_stocks_purchases_PurchaseId",
-                        column: x => x.PurchaseId,
-                        principalTable: "purchases",
+                        name: "FK_Sales_stocks_StockId",
+                        column: x => x.StockId,
+                        principalTable: "stocks",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -97,14 +90,9 @@ namespace Project.Migrations
                 column: "ItemsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Sales_ItemsId",
+                name: "IX_Sales_StockId",
                 table: "Sales",
-                column: "ItemsId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_stocks_ItemsId",
-                table: "stocks",
-                column: "ItemsId");
+                column: "StockId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_stocks_PurchaseId",
