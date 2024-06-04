@@ -10,15 +10,30 @@ namespace Project.Services.Sale
             _context = context;
         }
 
+
+        //add items
         public async Task<List<Sales>> AddItem(Sales item)
         {
             _context.Sales.Add(item);
             await _context.SaveChangesAsync();
 
+            var stockItem = await _context.stocks.FirstOrDefaultAsync(s => s.Id == item.StockId);
+
+            if (stockItem != null)
+            {
+                stockItem.Quantity -= item.Quantity;    //updating stock quantity
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new Exception("Stock ID not found!");
+            }
+
             var sales = await _context.Sales.ToListAsync();
             return sales;
         }
 
+        //delete item
         public async Task<List<Sales>> DeleteItem(Guid id)
         {
             var resposne = await _context.Sales.FirstOrDefaultAsync(s => s.Id == id);
@@ -36,6 +51,8 @@ namespace Project.Services.Sale
             return sales;
         }
 
+
+        //getall
         public async Task<List<Sales>> GetAll()
         {
             var response = await _context.Sales.ToListAsync();
@@ -54,6 +71,7 @@ namespace Project.Services.Sale
             return resposne;
         }
 
+        //update
         public async Task<List<Sales>> UpdateItem(Sales updateitem)
         {
             var response = await _context.Sales.FirstOrDefaultAsync(c => c.Id == updateitem.Id);
@@ -63,6 +81,8 @@ namespace Project.Services.Sale
                 throw new Exception("ID not found");
             }
 
+            int quantityDifference = updateitem.Quantity - response.Quantity;   //difference that needs to be subtracted
+
             response.TotalCost = updateitem.TotalCost;
             response.Date = updateitem.Date;
             response.Quantity = updateitem.Quantity;
@@ -70,9 +90,19 @@ namespace Project.Services.Sale
 
             await _context.SaveChangesAsync();
 
+            var stockItem = await _context.stocks.FirstOrDefaultAsync(s => s.Id == updateitem.StockId);
+            if (stockItem != null)
+            {
+                stockItem.Quantity -= quantityDifference;  //updating stocks table
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new Exception("Stock ID not found!");
+            }
+
             var sales = await _context.Sales.ToListAsync();
             return sales;
-
         }
     }
 }
