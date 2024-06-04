@@ -9,7 +9,7 @@ namespace Project.Services.Item
 
         public Task<List<Items>> DeleteItem(Guid id);
 
-        public Task<List<Items>> AddItem(Items item);
+        public Task<List<Items>> AddItem(List<Items> item);
 
         public Task<List<Items>> UpdateItem(Items updateitem);
     }

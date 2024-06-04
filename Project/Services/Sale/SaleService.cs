@@ -1,4 +1,6 @@
 ﻿
+using Project.Models;
+
 namespace Project.Services.Sale
 {
     public class SaleService : ISaleService
@@ -10,28 +12,29 @@ namespace Project.Services.Sale
             _context = context;
         }
 
-
-        //add items
-        public async Task<List<Sales>> AddItem(Sales item)
+        public async Task<List<Sales>> AddItem(List<Sales> items)
         {
-            _context.Sales.Add(item);
+            foreach (var item in items)
+            {
+                _context.Sales.Add(item);
+                var stockItem = await _context.stocks.FirstOrDefaultAsync(s => s.Id == item.StockId);
+
+                if (stockItem != null)
+                {
+                    stockItem.Quantity -= item.Quantity;    //updating stock quantity
+                }
+                else
+                {
+                    throw new Exception("Out Of Stock!");
+                }
+            }
+
             await _context.SaveChangesAsync();
-
-            var stockItem = await _context.stocks.FirstOrDefaultAsync(s => s.Id == item.StockId);
-
-            if (stockItem != null)
-            {
-                stockItem.Quantity -= item.Quantity;    //updating stock quantity
-                await _context.SaveChangesAsync();
-            }
-            else
-            {
-                throw new Exception("Stock ID not found!");
-            }
 
             var sales = await _context.Sales.ToListAsync();
             return sales;
         }
+
 
         //delete item
         public async Task<List<Sales>> DeleteItem(Guid id)
@@ -98,7 +101,7 @@ namespace Project.Services.Sale
             }
             else
             {
-                throw new Exception("Stock ID not found!");
+                throw new Exception("Out Of Stock!");
             }
 
             var sales = await _context.Sales.ToListAsync();

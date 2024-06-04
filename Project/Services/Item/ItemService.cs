@@ -10,12 +10,15 @@
         }
 
         //Add
-        public async Task<List<Items>> AddItem(Items item)
+        public async Task<List<Items>> AddItem(List<Items> items)
         {
-            _context.Items.Add(item);
+            foreach (var item in items)
+            {
+                _context.Items.Add(item);
+            }
             await _context.SaveChangesAsync();
-            var items = await _context.Items.ToListAsync();
-            return items;
+            var response = await _context.Items.ToListAsync();
+            return response;
         }
 
 

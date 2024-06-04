@@ -37,7 +37,7 @@ namespace Project.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<Stocks>>> AddStock(Stocks stocks)
+        public async Task<ActionResult<List<Stocks>>> AddStock(List<Stocks> stocks)
         {
             var result = await _stockService.AddStock(stocks);
             return Ok(result);

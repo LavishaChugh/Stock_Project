@@ -10,12 +10,15 @@
         }
 
         //Add
-        public async Task<List<Purchase>> Add(Purchase item)
+        public async Task<List<Purchase>> Add(List<Purchase> items)
         {
-            _context.purchases.Add(item);
+            foreach (var item in items)
+            {
+                _context.purchases.Add(item);
+            }
             await _context.SaveChangesAsync();
-            var items = await _context.purchases.ToListAsync();
-            return items;
+            var result = await _context.purchases.ToListAsync();
+            return result;
         }
 
 

@@ -8,7 +8,7 @@
 
         public Task<List<Purchase>> Delete(Guid id);
 
-        public Task<List<Purchase>> Add(Purchase item);
+        public Task<List<Purchase>> Add(List<Purchase> item);
 
         public Task<List<Purchase>> Update(Purchase updateitem);
     }

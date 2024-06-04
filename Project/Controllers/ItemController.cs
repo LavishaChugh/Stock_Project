@@ -43,7 +43,7 @@ namespace Project.Controllers
 
         //Post-Item
         [HttpPost]
-        public async Task<ActionResult<List<Items>>> AddItem(Items item)
+        public async Task<ActionResult<List<Items>>> AddItem(List<Items> item)
         {
             var items = await _itemService.AddItem(item);
             return Ok(items);

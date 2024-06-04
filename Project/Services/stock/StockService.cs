@@ -10,9 +10,11 @@ namespace Project.Services.stock
             _context = context;
         }
 
-        public async Task<List<Stocks>> AddStock(Stocks stocks)
+        public async Task<List<Stocks>> AddStock(List<Stocks> stocks)
         {
-            _context.stocks.Add(stocks);
+            foreach(var item in stocks) {
+                _context.stocks.Add(item);
+            }
             await _context.SaveChangesAsync();
 
             var Stocks = await _context.stocks.ToListAsync();

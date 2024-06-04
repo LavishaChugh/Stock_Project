@@ -9,7 +9,7 @@
 
         public Task<List<Stocks>> DeleteStock(Guid id);
 
-        public Task<List<Stocks>> AddStock(Stocks stocks);
+        public Task<List<Stocks>> AddStock(List<Stocks> stocks);
 
         public Task<List<Stocks>> UpdateStock(Stocks updateStocks);
 

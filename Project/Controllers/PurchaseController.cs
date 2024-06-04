@@ -44,7 +44,7 @@ namespace Project.Controllers
 
         //Post-Item
         [HttpPost]
-        public async Task<ActionResult<List<Purchase>>> AddItem(Purchase item)
+        public async Task<ActionResult<List<Purchase>>> AddItem(List<Purchase> item)
         {
             var items = await _purchaseService.Add(item);
             return Ok(items);
