@@ -14,6 +14,7 @@
         {
             foreach (var item in items)
             {
+                item.TotalCost = item.Quantity * item.ItemsNavigation!.prize;
                 _context.purchases.Add(item);
             }
             await _context.SaveChangesAsync();
@@ -68,13 +69,13 @@
 
             var item = await _context.purchases.FirstOrDefaultAsync(x => x.Id == updateitem.Id);
 
-            if (updateitem is null)
+            if (updateitem is null || item is null)
             {
                 throw new Exception("ID NOT FOUND!");
             }
 
-            item.Quantity = updateitem.Quantity;
-            item.TotalCost = updateitem.TotalCost;
+            item.Quantity = updateitem.Quantity;                    
+            item.TotalCost = updateitem.Quantity * updateitem.ItemsNavigation!.prize; ;
             item.ItemsId = updateitem.ItemsId;
 
 
