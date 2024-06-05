@@ -75,9 +75,8 @@
             }
 
             item.Quantity = updateitem.Quantity;                    
-            item.TotalCost = updateitem.Quantity * updateitem.ItemsNavigation!.prize; ;
+            item.TotalCost = updateitem.Quantity * updateitem.ItemsNavigation!.prize;  //calculating total cost
             item.ItemsId = updateitem.ItemsId;
-
 
             await _context.SaveChangesAsync();
 

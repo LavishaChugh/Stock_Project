@@ -26,6 +26,8 @@ namespace Project.Data
 
         public DbSet<Sales> Sales { get; set; }
 
+        public DbSet<Person> persons { get; set; }
+
 
     }
 }

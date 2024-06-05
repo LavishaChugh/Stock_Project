@@ -1,8 +1,10 @@
 ﻿global using Microsoft.AspNetCore.Mvc;
 global using Project.Services.Item;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Project.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ItemController : ControllerBase
